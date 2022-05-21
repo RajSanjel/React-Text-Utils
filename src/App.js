@@ -4,14 +4,13 @@ import TextForm from './components/TextForm';
 import About from './components/About';
 import { useState } from 'react';
 import Alert from './components/Alert';
-
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import NotFound from './components/NotFound';
 function App() {
   const [mode, setMode] = useState('light')
   const [modeText, setModeText] = useState("Enable Dark Mode")
   const [alert, setAlert] = useState(null)
-  
+
   const showAlert = (message, type) => {
     setAlert({
       msg: message,
@@ -20,7 +19,7 @@ function App() {
     setTimeout(() => {
       setAlert(null)
     }, 1000);
-    
+
   }
   const toggleMode = () => {
 
@@ -37,7 +36,7 @@ function App() {
       showAlert("Light Mode is Enabled", "success")
     }
   }
-  
+
 
   return (
 
@@ -48,22 +47,26 @@ function App() {
         <Navbar title="TextUtils" mode={mode} modeText={modeText} toggleMode={toggleMode} />
         <Alert alert={alert} />
         <Routes>
-          <Route exact path="/" element={
-            <div className="container my-3">
-              <TextForm showAlert={showAlert} heading="Enter Text Here" lmode={setMode}mode={mode} />
-
-            </div>
-
-          } />
-
-
-          {/* <div className="container my-3"> */}
-          <Route path="/about" element={
-            <>
-              <About mode={mode} />
-            </>
-          } />
-
+          <>
+            <Route path="/" element={
+              <div className="container my-3">
+                <TextForm showAlert={showAlert} heading="Enter Text Here" lmode={setMode} mode={mode} />
+              </div>
+            } />
+            <Route path="/index.html" element={
+              <div className="container my-3">
+                <TextForm showAlert={showAlert} heading="Enter Text Here" lmode={setMode} mode={mode} />
+              </div>
+            } />
+            <Route path="/about" element={
+              <>
+                <About mode={mode} />
+              </>
+            } />
+            <Route path="*" element={
+              <NotFound/>
+            }/>
+          </>
 
         </Routes>
       </Router>
